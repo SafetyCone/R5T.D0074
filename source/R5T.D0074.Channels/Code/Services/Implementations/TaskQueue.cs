@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace R5T.D0074.Channels
 {
     // Source: https://michaelscodingspot.com/c-job-queues-with-reactive-extensions-and-channels/
-    public class TaskQueue : ITaskQueue, IDisposable
+    public class TaskQueue : ITaskQueue
     {
         private Channel<Task> Channel { get; }
         private ChannelWriter<Task> ChannelWriter { get; }
