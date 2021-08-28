@@ -11,6 +11,7 @@ namespace R5T.D0074.Channels
         private Channel<Task> Channel { get; }
         private ChannelWriter<Task> ChannelWriter { get; }
         private ChannelReader<Task> ChannelReader { get; }
+        private Task Task { get; }
 
 
         public TaskQueue()
@@ -19,7 +20,7 @@ namespace R5T.D0074.Channels
             this.ChannelReader = this.Channel.Reader;
             this.ChannelWriter = this.Channel.Writer;
 
-            Task.Factory.StartNew(async () =>
+            this.Task = Task.Factory.StartNew(async () =>
             {
                 while (await this.ChannelReader.WaitToReadAsync())
                 {
@@ -41,7 +42,11 @@ namespace R5T.D0074.Channels
         public void Enqueue(Task task)
         {
             // An unbounded queue is assumed, so can ignore the result of trying to write since it should always succeed (and will only not succeed if there's not enough system memory).
-            this.ChannelWriter.TryWrite(task);
+            var wroteTask = this.ChannelWriter.TryWrite(task);
+            if (!wroteTask)
+            {
+                throw new Exception("Unable to write task to channel.");
+            }
         }
 
         #region IDisposable
@@ -66,6 +71,7 @@ namespace R5T.D0074.Channels
 
             if (disposing)
             {
+                this.Task.Dispose();
                 this.Channel.Writer.Complete();
             }
 
