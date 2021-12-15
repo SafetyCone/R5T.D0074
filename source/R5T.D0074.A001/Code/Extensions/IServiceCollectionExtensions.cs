@@ -12,8 +12,8 @@ namespace R5T.D0074.A001
         public static ServicesAggregation01 AddTaskQueueServices(this IServiceCollection services)
         {
             // Level 0.
-            var taskQueueAction = services.AddTaskQueueAction();
-            var taskQueueConstructorAction = services.AddTaskQueueConstructorAction();
+            var taskQueueAction = services.AddTaskQueueAction_Old();
+            var taskQueueConstructorAction = services.AddTaskQueueConstructorAction_Old();
 
             return new ServicesAggregation01
             {

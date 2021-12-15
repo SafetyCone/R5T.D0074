@@ -2,7 +2,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
 
-using R5T.T0063;
+using R5T.Dacia;
 
 
 namespace R5T.D0074.Channels
@@ -12,21 +12,19 @@ namespace R5T.D0074.Channels
         /// <summary>
         /// Adds the <see cref="TaskQueue"/> implementation of <see cref="ITaskQueue"/> as a <see cref="ServiceLifetime.Singleton"/>.
         /// </summary>
-        public static IServiceCollection AddTaskQueue(this IServiceCollection services)
+        public static IServiceAction<ITaskQueue> AddTaskQueueAction_Old(this IServiceCollection services)
         {
-            services.AddSingleton<ITaskQueue, TaskQueue>();
-
-            return services;
+            var serviceAction = ServiceAction.New<ITaskQueue>(() => services.AddTaskQueue());
+            return serviceAction;
         }
 
         /// <summary>
         /// Adds the <see cref="TaskQueueConstructor"/> implementation of <see cref="ITaskQueueConstructor"/> as a <see cref="ServiceLifetime.Singleton"/>.
         /// </summary>
-        public static IServiceCollection AddTaskQueueConstructor(this IServiceCollection services)
+        public static IServiceAction<ITaskQueueConstructor> AddTaskQueueConstructorAction_Old(this IServiceCollection services)
         {
-            services.AddSingleton<ITaskQueueConstructor, TaskQueueConstructor>();
-
-            return services;
+            var serviceAction = ServiceAction.New<ITaskQueueConstructor>(() => services.AddTaskQueueConstructor());
+            return serviceAction;
         }
     }
 }
