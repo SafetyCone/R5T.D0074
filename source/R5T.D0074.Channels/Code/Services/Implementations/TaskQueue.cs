@@ -45,7 +45,15 @@ namespace R5T.D0074.Channels
             var wroteTask = this.ChannelWriter.TryWrite(task);
             if (!wroteTask)
             {
-                throw new Exception("Unable to write task to channel.");
+                // Wait a bit and try again.
+                System.Threading.Thread.Sleep(100);
+
+                wroteTask = this.ChannelWriter.TryWrite(task);
+                if (!wroteTask)
+                {
+
+                    throw new Exception("Unable to write task to channel.");
+                }
             }
         }
 
