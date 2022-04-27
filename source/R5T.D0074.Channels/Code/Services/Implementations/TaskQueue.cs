@@ -2,11 +2,14 @@
 using System.Threading.Channels;
 using System.Threading.Tasks;
 
+using R5T.T0064;
+
 
 namespace R5T.D0074.Channels
 {
     // Source: https://michaelscodingspot.com/c-job-queues-with-reactive-extensions-and-channels/
-    public class TaskQueue : ITaskQueue
+    [ServiceImplementationMarker]
+    public class TaskQueue : ITaskQueue, IServiceImplementation
     {
         private Channel<Task> Channel { get; }
         private ChannelWriter<Task> ChannelWriter { get; }
